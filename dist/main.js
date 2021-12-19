@@ -56169,7 +56169,7 @@ function makeStyles(stylesOrCreator, options = {}) {
 }
 
 // dist/tunelist.js
-var BASE = "/tunes/";
+var BASE = "tunes/";
 var tunelist = [
   {
     file: BASE + "Spohr.musicxml",
@@ -56372,7 +56372,7 @@ function App() {
     loadFile(window.osmd, file2);
   }
   const [open, setOpen] = useState(false);
-  const [file, setFile] = useState("/tunes/Spohr.musicxml");
+  const [file, setFile] = useState("tunes/Spohr.musicxml");
   const handleDrawerOpen = () => {
     setOpen(true);
   };

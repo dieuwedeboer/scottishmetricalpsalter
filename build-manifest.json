@@ -2658,7 +2658,7 @@
       ]
     },
     "dist/tunelist.js": {
-      "bytes": 355,
+      "bytes": 354,
       "imports": []
     },
     "dist/components/select/TuneSelect.js": {
@@ -2777,7 +2777,7 @@
       ]
     },
     "dist/App.js": {
-      "bytes": 2690,
+      "bytes": 2689,
       "imports": [
         {
           "path": "_snowpack/pkg/react.js",
@@ -3083,7 +3083,7 @@
           "bytesInOutput": 81584
         },
         "dist/tunelist.js": {
-          "bytesInOutput": 359
+          "bytesInOutput": 358
         },
         "dist/components/select/TuneSelect.js": {
           "bytesInOutput": 947
@@ -3095,7 +3095,7 @@
           "bytesInOutput": 3470
         },
         "dist/App.js": {
-          "bytesInOutput": 2470
+          "bytesInOutput": 2469
         },
         "_snowpack/pkg/@mui/material/colors.js": {
           "bytesInOutput": 0
@@ -3107,7 +3107,7 @@
           "bytesInOutput": 300
         }
       },
-      "bytes": 2611593
+      "bytes": 2611591
     }
   }
 }
