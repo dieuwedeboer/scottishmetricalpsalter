@@ -1,4 +1,4 @@
-const BASE = '/tunes/';
+const BASE = 'tunes/';
 
 /**
  * Array of tune object.

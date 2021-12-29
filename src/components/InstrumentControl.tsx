@@ -6,7 +6,8 @@ import Typography from '@mui/material/Typography'
 import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
 import FormControl from '@mui/material/FormControl'
-import Select, { SelectChangeEvent } from '@mui/material/Select'
+import Select from '@mui/material/Select/Select'
+import { SelectChangeEvent } from '@mui/material/Select/Select'
 // Internal.
 import VolumeSlider from './slider/VolumeSlider'
 
@@ -42,6 +43,8 @@ export function Voices({ player, voices }: props) {
 
 /**
  * InstrumentSelect.
+ *
+ * @todo shift to ./select/InstrumentSelect.tsx
  */
 export function InstrumentSelect({ player, voice }: props) {
   const [instrument, setInstrument] = useState<number>(player.getPlaybackInstrument(voice.VoiceId).midiId)
@@ -54,17 +57,18 @@ export function InstrumentSelect({ player, voice }: props) {
   return (
     <Box sx={{ minWidth: 120 }}>
       <FormControl fullWidth>
-        <InputLabel id="demo-simple-select-label">Instrument</InputLabel>
+        <InputLabel id="instrument-select-label">Instrument</InputLabel>
         <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
+          labelId="instrument-select-label"
+          id="instrument-select"
           value={instrument}
           label="Instrument"
           onChange={handleChange}
+          sx={{'legend': { maxWidth: '100%' } }}
         >
-        { player.availableInstruments.map((i) => 
-          <MenuItem key={i.midiId} value={i.midiId}>{i.name}</MenuItem>
-        )}
+          { player.availableInstruments.map((i) => 
+            <MenuItem key={i.midiId} value={i.midiId}>{i.name}</MenuItem>
+          ) }
         </Select>
       </FormControl>
     </Box>

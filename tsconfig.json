@@ -1,0 +1,8 @@
+{
+  "compilerOptions": {
+    /* noEmit - Snowpack builds (emits) files, not tsc. */
+    "noEmit": true,
+    /* Additional Options */
+    "strict": true
+  }
+}

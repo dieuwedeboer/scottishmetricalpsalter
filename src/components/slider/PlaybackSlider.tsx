@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import Slider from '@mui/material/Slider/Slider'
-import theme from '../../theme'
+
+const styles = {
+  '&, && .MuiSlider-markLabel': {
+    color: 'white',
+  },
+}
+
 /**
  * Playback progress.
  *
@@ -43,6 +49,6 @@ export default function PlaybackSlider({ player, iteration, setIteration }: prop
   }
   
   return(
-    <Slider aria-label="Playback" value={iteration} onChange={jumpToStep} step={1} min={0} max={player.iterationSteps} marks={marks} style={{ color: "white"}} />
+    <Slider aria-label="Playback" value={iteration} onChange={jumpToStep} step={1} min={0} max={player.iterationSteps} marks={marks} sx={{...styles}} />
   )
 }

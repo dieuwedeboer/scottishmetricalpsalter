@@ -10,8 +10,9 @@ import InstrumentControl from './InstrumentControl'
 import TuneSelect from './select/TuneSelect'
 
 /**
- * @todo 90% of the functionality should be shifted up to the App level
- * so that this function just handles the score render and nothing more.
+ * @todo This component is currently defunct and could be removed.
+ * We might want it back later to handle OSMD logic again
+ * as right now the App is pretty busy with core logic.
  */
 function Score({file, setFile}: props) {
   const scoreDiv = createRef()

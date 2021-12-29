@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 // Theme.
-// @note Slider index is skipped due to a ForwardRef eror.
 import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
 import Slider from '@mui/material/Slider/Slider'

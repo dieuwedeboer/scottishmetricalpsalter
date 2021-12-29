@@ -1,74 +1,72 @@
-import React, { useState, useEffect, createRef} from 'react'
+import React, { useState, useEffect, useRef} from 'react'
 import OSMD from 'opensheetmusicdisplay'
 import AudioPlayer from 'osmd-audio-player'
 // Theme.
-import { styled } from '@mui/material/styles'
 import Box from '@mui/material/Box'
+import Toolbar from '@mui/material/Toolbar'
+import Button from '@mui/material/Button'
 // Internal.
 import Score from './components/Score.tsx'
-import Topbar, {DrawerHeader, PlaybackBar, Sidebar} from './components/AppBars'
-
-// @todo this is duplicted in the AppBars file
-const drawerWidth = 340
-
-const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
-  open?: boolean;
-}>(({ theme, open }) => ({
-  flexGrow: 1,
-  padding: theme.spacing(3),
-  transition: theme.transitions.create('margin', {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  marginRight: -drawerWidth,
-  ...(open && {
-    transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-    marginRight: 0,
-  }),
-}));
+import Topbar, { PlaybackBar, Sidebar } from './components/AppBars'
+import TuneSelect from './components/select/TuneSelect'
+import testLyrics from './lyrics'
 
 export default function App() {
-  /* start score refactor*/
-  const scoreDiv = createRef()
-
-  const [ready, setReady] = useState<bool>(false)
-  const [player, setPlayer] = useState(new AudioPlayer())
+  const scoreDiv = useRef()
   
-  async function loadFile(osmd, file) {
+  const [ready, setReady] = useState<bool>(false)
+  const [display, setDisplay] = useState()
+  const [player] = useState(new AudioPlayer())
+  const [open, setOpen] = useState(false);
+  const [file, setFile] = useState('tunes/Spohr.musicxml')
+  const [scoreWidth, setScoreWidth] = useState<number>(1260)
+  
+  // Set globals for debugging. These should never be used directly in code.
+  // @todo wrap this in a debug conditional.
+  window.osmd = display
+  window.audioPlayer = player
+
+  // We pass osmd as on first load, the display is not completely ready.
+  async function loadFile(osmd, file) {   
     await osmd.load(file)
+    
+    // @todo Scale based on viewport.
+    // osmd.zoom = a value between 0.1 and 2?
+    //osmd.zoom = 0.5
+    //testLyrics(osmd)
+    if (window.outerWidth < scoreWidth) {
+      let scale = Math.round(window.outerWidth / scoreWidth * 100) / 100
+      osmd.Zoom = scale
+    }
+    
     await osmd.render()
     await player.loadScore(osmd)
-    // Let everyone else know we're good to go.
-    setPlayer(player)
-    setReady(true)
 
-    // Need to review this, but has been done to allow the
-    // transpose function to work so the object doesn't need to be
-    // passed down
-    window.osmd = osmd
-    // Ditto, but very useful for debugging.
-    window.audioPlayer = player
+    // Let everyone else know we're good to go.
+    setReady(true)
   }
   
   useEffect(() => {
-    // Minor issue with snowpack is that OSMD doesn't have any named
-    // exports, so we fetch everything under the OSMD namespace.
-    const osmd = new OSMD.OpenSheetMusicDisplay(scoreDiv.current)
-    osmd.TransposeCalculator = new OSMD.TransposeCalculator();
+    // We can't initialise OSMD via useState as the scoreDiv is not yet ready.
+    // We also can't set it via setDisplay as the async nature means
+    // we get to loadFile too quickly. Ideally there is a solution where
+    // we just wait for each one after the other. (Promises?)
+    const osmd = new OSMD.OpenSheetMusicDisplay(
+      scoreDiv.current,
+      {
+        //backend: 'canvas',
+        newPageFromXML: true,
+        newSystemFromXML: true,
+        followCursor: true,
+        autoResize: true,      
+      }
+    )
     
-    osmd.setOptions({
-      backend: 'canvas',
-      newPageFromXML: true,
-      newSystemFromXML: true,
-      followCursor: true,
-      // @todo We want to ensure that both lines are always stretched
-      // to full width.
-      //autoResize: false,
-    })
-    
+    // Prepare additional settings.
+    osmd.TransposeCalculator = new OSMD.TransposeCalculator()
+
+    // Assign OSMD to state and load sheet music.
+    setDisplay(osmd)    
     loadFile(osmd, file)
   }, [])
   
@@ -76,14 +74,9 @@ export default function App() {
     console.log(file)
     setReady(false)
     setFile(file)
-    // @todo don't rely on the global state for this.
-    loadFile(window.osmd, file)
+    loadFile(display, file)
   }
-/* end score refactor*/
-  
-  const [open, setOpen] = useState(false);
-  const [file, setFile] = useState('/tunes/Spohr.musicxml')
-  
+    
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -92,16 +85,19 @@ export default function App() {
     setOpen(false);
   };
 
-  //        <Score file={file} setFile={setFile} />
   return (
-    <Box className="App" sx={{ display: 'flex' }}>
-      <Topbar position="fixed" open={open} handleDrawerOpen={handleDrawerOpen} file={file} changeTune={changeTune} player={player} />
-      <Main open={open}>
-        <DrawerHeader />
-        <Box sx={{ maxWidth: 1200 }} ref={scoreDiv} />
-      </Main>
-      <PlaybackBar player={player} />
-      <Sidebar player={player} open={open} handleDrawerClose={handleDrawerClose} />
+    <Box className="App">
+      <Topbar position="fixed" open={open} handleDrawerOpen={handleDrawerOpen} file={file} changeTune={changeTune} player={player} osmd={display} />
+      <Box component="main" open={open} >
+        <Toolbar />
+        <Box sx={{ p: 2 }} >
+          <TuneSelect player={player} file={file} changeTune={changeTune} />
+          <Button variant="outline" sx={{p: 2}}  onClick={() => {testLyrics(osmd)}}>Show verse</Button>
+        </Box>
+        <Box component="article" sx={{ maxWidth: scoreWidth }} ref={scoreDiv} />
+        <PlaybackBar player={player} />
+      </Box>
+      <Sidebar osmd={display} player={player} open={open} handleDrawerClose={handleDrawerClose} />
     </Box>
   )
 }
