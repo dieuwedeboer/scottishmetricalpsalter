@@ -2,11 +2,15 @@
 
 This is an application to present the metrical tunes of Scottish Psalmody in a dynamic way and to provide a web render of tunes in staff notation. It also aims to add tools to for the tunes and harmonisations to be played and manipulated on the web.
 
-The tunes here are for singing with the Scottish Metrical Psalter approved for use in public worship by the General Assembly of the Church of Scotland in 1650.
+The tunes here are for singing with the *Scottish Metrical Psalter* approved for use in public worship by the General Assembly of the Church of Scotland in 1650. This psalter is also knows as the *Psalms of David in Metre* and most of the Psalms are in common metre, with a few long metre and short metre versions.
 
 # Getting started
 
-Clone the repository and run `yarn && yarn start`.
+You can try out a [live demo](https://dieuwedeboer.github.io/scottishmetricalpsalter) of this project. It should be regularly updated with the latest build from this repository via the gh-pages branch.
+
+Clone the repository and run `yarn && yarn start` to get a local version of the app for local development.
+
+With `yarn build` you will get a completely functional Javascript app in the `./build` directory that is portable to any webserver, or you can download the compiled code from the gh-pages branch.
 
 # Dynamic and designed for learning tunes and harmonies
 
@@ -19,9 +23,9 @@ Want to learn the tenor line on your favourite tune? Select the tune, disable th
 # Roadmap
 
 * Basic controls to select a tune, manipulate playback, set SATB volumes independently, select soundfonts, change tempo, and transpose sheet music.
+* Digitise the full list of tunes from the printed FCC 2013 Scottish Psalmody.
 * Split-leaf support with the traditional Psalter text and Psalm selection.
 * Tracking metadata about tunes, including suggested Psalm/tune matches.
-* Digitise the full list of tunes from the printed FCC 2013 Scottish Psalmody.
 * Support tunes and additionals from other split-leaf versions.
 * Use a device's microphone to identify a tune being sung or hummed.
 
@@ -29,15 +33,15 @@ Want to learn the tenor line on your favourite tune? Select the tune, disable th
 
 The tunes are entered and maintained in MusicXML. Existing apps and website tend to provide static images and MIDI files. Storing them in XML allows for better maintenance and provides flexibility in the way that the notation is rendered and presented.
 
+A guide should be provided in the project Wiki soon.
+
 # Resources and thanks
 
-The application is written in Typescript and uses React's Material UI.
+The application is written in [Typescript](https://www.typescriptlang.org/) and uses [React's](https://reactjs.org) [Material UI](https://mui.com).
 
-OpenSheetMusicDisplay is used to render the staff notation in the browser and the OSMD Audio Player is used to enable playback of the tunes.
+[OpenSheetMusicDisplay](https://github.com/opensheetmusicdisplay/opensheetmusicdisplay) is used to render the staff notation in the browser and the [OSMD Audio Player](https://github.com/jimutt/osmd-audio-player) is used to enable playback of the tunes.
 
-The tunes and their arrangements are taken from the Free Church (Continuing) 2013 split-leaf psalmody.
-
-This project was inspired by the 1650 Split Leaf Psalter app.
+The tunes and their arrangements are taken from the Free Church (Continuing) 2013 Psalmody in staff notation. This project was inspired by the 1650 Split Leaf Psalter app for Android.
 
 # Found a mistake?
 
