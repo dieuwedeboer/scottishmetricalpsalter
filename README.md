@@ -18,7 +18,7 @@ You can select a tune and have full control over the playback and SATB voices.
 
 Want to hear just the melody, and at a slower speed? Push a few buttons and it's done.
 
-Want to learn the tenor line on your favourite tune? Select the tune, disable the other voices, and play it back at whatever speed you find comfortable.
+Want to learn the tenor line on your favourite tune? Select the tune, disable the other voices, and play it back at whatever speed or pitch you find comfortable.
 
 # Roadmap
 
@@ -33,7 +33,7 @@ Want to learn the tenor line on your favourite tune? Select the tune, disable th
 
 The tunes are entered and maintained in MusicXML. Existing apps and website tend to provide static images and MIDI files. Storing them in XML allows for better maintenance and provides flexibility in the way that the notation is rendered and presented.
 
-A guide should be provided in the project Wiki soon.
+There is a guide to how tunes are processed in [the project Wiki](https://github.com/dieuwedeboer/scottishmetricalpsalter/wiki).
 
 # Resources and thanks
 
