@@ -12,7 +12,7 @@ function htmlToElement(html) {
 }
 
 // @todo Dynamically process verses and break syllables.
-// @todo also handle syllable separators better than manual -s
+  // @todo also handle syllable separators better than manual -s
 const verse = [
   'That', 'man', 'hath', 'per-', '-fect', 'bles-', '-sed-', '-ness,',
   'who', 'wal-', '-keth', 'not', 'a-', '-stray',
@@ -29,7 +29,7 @@ function testLyrics(osmd) {
   verse.forEach(function (word, index) {
     // Always add lyrics to the soprano line.
     let e = osmd.Sheet.Instruments[0].Voices[0].VoiceEntries[veIndex]
-    
+
     // Check for syllables
     // @todo this very crude and temporary way to handle syllables
     let syllable = 'single'
@@ -43,12 +43,12 @@ function testLyrics(osmd) {
       syllable = 'end'
     }
     word = word.replace('-', '')
-    
+
     // This is the minimal HTML that OSMD will parse into a lyric.
     let x = new OSMD.IXmlElement(
       htmlToElement(`<lyric><syllabic>${syllable}</syllabic><text>${word}</text></lyric>`)
     )
-    
+
     // Process a lyric entry via the reader.
     if (e.Notes[0].slurs.length > 0) {
       // Bit obtuse, but ensures we only add lyrics to the start of a slur
@@ -67,7 +67,7 @@ function testLyrics(osmd) {
 
   // As the file is already loaded, tell OSDM to update its graphic object
   osmd.updateGraphic()
-  osmd.render()  
+  osmd.render()
 
   // for options around tags that OSMD might process for lyrics:
   // @see https://github.com/opensheetmusicdisplay/opensheetmusicdisplay/blob/6133cb7a/src/MusicalScore/ScoreIO/MusicSymbolModules/LyricsReader.ts#L11

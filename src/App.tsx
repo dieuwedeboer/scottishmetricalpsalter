@@ -13,23 +13,23 @@ import testLyrics from './lyrics'
 
 export default function App() {
   const scoreDiv = useRef()
-  
+
   const [ready, setReady] = useState<bool>(false)
   const [display, setDisplay] = useState()
   const [player] = useState(new AudioPlayer())
   const [open, setOpen] = useState(false);
   const [file, setFile] = useState('tunes/Spohr.musicxml')
   const [scoreWidth, setScoreWidth] = useState<number>(1260)
-  
+
   // Set globals for debugging. These should never be used directly in code.
   // @todo wrap this in a debug conditional.
   window.osmd = display
   window.audioPlayer = player
 
   // We pass osmd as on first load, the display is not completely ready.
-  async function loadFile(osmd, file) {   
+  async function loadFile(osmd, file) {
     await osmd.load(file)
-    
+
     // @todo Scale based on viewport.
     // osmd.zoom = a value between 0.1 and 2?
     //osmd.zoom = 0.5
@@ -38,14 +38,14 @@ export default function App() {
       let scale = Math.round(window.outerWidth / scoreWidth * 100) / 100
       osmd.Zoom = scale
     }
-    
+
     await osmd.render()
     await player.loadScore(osmd)
 
     // Let everyone else know we're good to go.
     setReady(true)
   }
-  
+
   useEffect(() => {
     // We can't initialise OSMD via useState as the scoreDiv is not yet ready.
     // We also can't set it via setDisplay as the async nature means
@@ -58,25 +58,25 @@ export default function App() {
         newPageFromXML: true,
         newSystemFromXML: true,
         followCursor: true,
-        autoResize: true,      
+        autoResize: true,
       }
     )
-    
+
     // Prepare additional settings.
     osmd.TransposeCalculator = new OSMD.TransposeCalculator()
 
     // Assign OSMD to state and load sheet music.
-    setDisplay(osmd)    
+    setDisplay(osmd)
     loadFile(osmd, file)
   }, [])
-  
+
   async function changeTune(file) {
     console.log(file)
     setReady(false)
     setFile(file)
     loadFile(display, file)
   }
-    
+
   const handleDrawerOpen = () => {
     setOpen(true);
   };

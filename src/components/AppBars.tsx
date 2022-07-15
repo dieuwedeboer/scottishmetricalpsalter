@@ -26,7 +26,7 @@ export function PlaybackBar({player}: props) {
 
 export function Sidebar({osmd, player, open, handleDrawerClose}: props) {
   const drawerWidth = 340;
-  
+
   const transpose = (event) => {
     // @todo Can we capture the value as a number directly?
     // @todo Treat 0 as empty so that we don't transpose to naturals.
