@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef} from 'react'
-import OSMD from 'opensheetmusicdisplay'
+import * as OSMD from 'opensheetmusicdisplay'
 import AudioPlayer from 'osmd-audio-player'
 // Theme.
 import Box from '@mui/material/Box'

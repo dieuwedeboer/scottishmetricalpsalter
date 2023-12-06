@@ -6,11 +6,11 @@ The tunes here are for singing with the *Scottish Metrical Psalter* approved for
 
 # Getting started
 
-You can try out a [live demo](https://dieuwedeboer.github.io/scottishmetricalpsalter) of this project. It should be regularly updated with the latest build from this repository via the gh-pages branch.
+You can try out a [live demo](https://dieuwedeboer.github.io/scottishmetricalpsalter) of this project. It should be regularly updated with the latest build from this repository in the "docs" directory.
 
-Clone the repository and run `yarn && yarn start` to get a local version of the app for local development.
+Clone the repository and run `npm install && npm start` to get a local version of the app for local development.
 
-With `yarn build` you will get a completely functional Javascript app in the `./build` directory that is portable to any webserver, or you can download the compiled code from the gh-pages branch.
+With `npm run build` you will get a completely functional Javascript app in the `./build` directory that is portable to any webserver, or you can download the compiled code from the gh-pages branch.
 
 # Dynamic and designed for learning tunes and harmonies
 

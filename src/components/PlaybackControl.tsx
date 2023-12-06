@@ -4,7 +4,6 @@ import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import PauseRounded from '@mui/icons-material/PauseRounded'
 import PlayArrowRounded from '@mui/icons-material/PlayArrowRounded'
-import PlayArrowRounded from '@mui/icons-material/PlayArrowRounded'
 import Stop from '@mui/icons-material/Stop'
 import IconButton from '@mui/material/IconButton'
 // Internal.
@@ -17,7 +16,7 @@ import TempoSlider from './slider/TempoSlider'
 function PlaybackControl({player}: props) {
   const [iteration, setIteration] = useState<number>(player.currentIterationStep)
   const [paused, setPaused] = useState(true)
-  
+
   const play = () => {
     if (player.state === 'STOPPED' || player.state === 'PAUSED') {
       player.play()
