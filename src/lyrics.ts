@@ -1,4 +1,4 @@
-import OSMD from 'opensheetmusicdisplay'
+import { LyricsReader, IXmlElement} from 'opensheetmusicdisplay'
 
 /**
  * Helper function to convert an XML string to HTML template element.
@@ -21,14 +21,15 @@ const verse = [
 ]
 
 // this should be called before osmd.render(), after load()
-function testLyrics(osmd) {
-  const lyricsReader = new OSMD.LyricsReader(osmd.Sheet)
+function testLyrics(display) {
+  console.log(display)
+  const lyricsReader = new LyricsReader(display.Sheet)
   let veIndex = 0
 
   // Loop over each "word" in the verse.
   verse.forEach(function (word, index) {
     // Always add lyrics to the soprano line.
-    let e = osmd.Sheet.Instruments[0].Voices[0].VoiceEntries[veIndex]
+    let e = display.Sheet.Instruments[0].Voices[0].VoiceEntries[veIndex]
 
     // Check for syllables
     // @todo this very crude and temporary way to handle syllables
@@ -45,7 +46,7 @@ function testLyrics(osmd) {
     word = word.replace('-', '')
 
     // This is the minimal HTML that OSMD will parse into a lyric.
-    let x = new OSMD.IXmlElement(
+    let x = new IXmlElement(
       htmlToElement(`<lyric><syllabic>${syllable}</syllabic><text>${word}</text></lyric>`)
     )
 
@@ -66,8 +67,8 @@ function testLyrics(osmd) {
   })
 
   // As the file is already loaded, tell OSDM to update its graphic object
-  osmd.updateGraphic()
-  osmd.render()
+  display.updateGraphic()
+  display.render()
 
   // for options around tags that OSMD might process for lyrics:
   // @see https://github.com/opensheetmusicdisplay/opensheetmusicdisplay/blob/6133cb7a/src/MusicalScore/ScoreIO/MusicSymbolModules/LyricsReader.ts#L11

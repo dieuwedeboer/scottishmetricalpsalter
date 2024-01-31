@@ -109,14 +109,14 @@
         <direction-type>
           <metronome parentheses="no" relative-y="20.00">
             <beat-unit>quarter</beat-unit>
-            <per-minute>90</per-minute>
+            <per-minute>120</per-minute>
             </metronome>
           </direction-type>
         <direction-type>
           <words relative-y="20.00" font-weight="bold" font-size="9">
 </words>
           </direction-type>
-        <sound tempo="90"/>
+        <sound tempo="120"/>
         </direction>
       <note default-x="86.19" default-y="-45.00">
         <pitch>

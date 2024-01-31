@@ -1,40 +1,46 @@
 import React from 'react'
-import Box from '@mui/material/Box'
-import Drawer from '@mui/material/Drawer'
-import AppBar from '@mui/material/AppBar'
-import Toolbar from '@mui/material/Toolbar'
-import Typography from '@mui/material/Typography'
-import Divider from '@mui/material/Divider'
-import IconButton from '@mui/material/IconButton'
+import {
+  Box,
+  Drawer,
+  AppBar,
+  Toolbar,
+  Typography,
+  Divider,
+  IconButton,
+  TextField
+} from '@mui/material'
 import SettingsIcon from '@mui/icons-material/Settings'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
-import TextField from '@mui/material/TextField'
-// Internal.
 import PlaybackControl from './PlaybackControl'
 import InstrumentControl from './InstrumentControl'
 import TempoSlider from './slider/TempoSlider'
+import { useSelector, useDispatch } from 'react-redux'
+import { setOpen } from '../state/appSlice'
+import { useDisplay, useAudioPlayer } from '../osmd'
 
-export function PlaybackBar({player}: props) {
+export function PlaybackBar() {
   return (
     <AppBar position="fixed" color="primary" sx={{ top: 'auto', bottom: 0 }}>
       <Toolbar>
-        <PlaybackControl player={player} />
+        <PlaybackControl />
       </Toolbar>
     </AppBar>
   )
 }
 
-export function Sidebar({osmd, player, open, handleDrawerClose}: props) {
+export function Sidebar({open}: props) {
+  const display = useDisplay()
+  const player  = useAudioPlayer()
+  const dispatch = useDispatch()
   const drawerWidth = 340;
 
   const transpose = (event) => {
     // @todo Can we capture the value as a number directly?
     // @todo Treat 0 as empty so that we don't transpose to naturals.
-    osmd.Sheet.Transpose = Number(event.target.value)
-    osmd.updateGraphic()
-    osmd.render()
+    display.Sheet.Transpose = Number(event.target.value)
+    display.updateGraphic()
+    display.render()
   }
-
 
   return (
     <Drawer
@@ -51,7 +57,7 @@ export function Sidebar({osmd, player, open, handleDrawerClose}: props) {
       open={open}
     >
       <Toolbar>
-        <IconButton onClick={handleDrawerClose}>
+        <IconButton onClick={() => dispatch(setOpen(false))}>
           <ChevronRightIcon />
         </IconButton>
       </Toolbar>

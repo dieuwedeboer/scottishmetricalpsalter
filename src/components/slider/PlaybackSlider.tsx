@@ -7,12 +7,7 @@ const styles = {
   },
 }
 
-/**
- * Playback progress.
- *
- * @todo perhaps rename this to PlaybackSlider?
- */
-export default function PlaybackSlider({ player, iteration, setIteration }: props) {  
+export default function PlaybackSlider({ player, iteration, setIteration }: props) {
   const jumpToStep = (event: Event, newValue: number | number[]) => {
     setIteration(newValue as number);
     // @todo if player is STOPPED and we change the iteration step
@@ -35,20 +30,20 @@ export default function PlaybackSlider({ player, iteration, setIteration }: prop
       setIteration(player.currentIterationStep)
   })
   }, [])
-  
+
   // @todo Calculate these based on the score.
   let marks = []
   if (player.iterationSteps > 0) {
     marks = [
-      { value: 0, label: '0' },
-      { value: player.iterationSteps * .25, label: 'Line 2' },
-      { value: player.iterationSteps * .5, label: 'Line 3'  },
-      { value: player.iterationSteps * .75, label: 'Line 4'  },
-      { value: player.iterationSteps, label: player.iterationSteps },
+      { value: 0 },
+      { value: player.iterationSteps * .25 },
+      { value: player.iterationSteps * .5 },
+      { value: player.iterationSteps * .75 },
+      { value: player.iterationSteps },
     ]
   }
-  
+
   return(
-    <Slider aria-label="Playback" value={iteration} onChange={jumpToStep} step={1} min={0} max={player.iterationSteps} marks={marks} sx={{...styles}} />
+    <Slider aria-label="Playback" value={iteration} onChange={jumpToStep} step={1} min={0} max={player.iterationSteps} marks={marks} sx={styles} />
   )
 }

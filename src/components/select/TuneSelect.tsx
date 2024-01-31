@@ -1,11 +1,12 @@
-import React, { Component, useState } from 'react'
+import React from 'react'
 import MenuItem from '@mui/material/MenuItem'
 import InputLabel from '@mui/material/InputLabel'
 import FormControl from '@mui/material/FormControl'
-import Select from '@mui/material/Select/Select'
-import { SelectChangeEvent } from '@mui/material/Select/Select'
-
+import Select, { SelectChangeEvent } from '@mui/material/Select'
+import { useSelector, useDispatch } from 'react-redux'
+import { loadFile, setFile, setReady } from '../../state/appSlice'
 import tunelist from '../../tunelist'
+import { useDisplay, useAudioPlayer } from '../../osmd'
 
 const selectStyles = {
   //'&, .MuiSelect-icon': {
@@ -22,15 +23,20 @@ const selectStyles = {
 /**
  * Change the tune.
  */
-export default function TuneSelect({ player, file, changeTune }: props) {
-  const [tune, setTune] = useState(file)
+export default function TuneSelect({ loadFile }: props) {
+  const display = useDisplay()
+  const player = useAudioPlayer()
+  const { file, ready } = useSelector((state: AppState) => state.app)
+  const dispatch = useDispatch()
 
   const tuneSelected = (event: SelectChangeEvent) => {
     if (player.state === 'PLAYING') {
       player.stop()
     }
-    setTune(event.target.value)
-    changeTune(event.target.value)
+
+    dispatch(setReady(false))
+    dispatch(setFile(event.target.value))
+    loadFile(event.target.value, display)
   }
 
   return (
@@ -44,7 +50,7 @@ export default function TuneSelect({ player, file, changeTune }: props) {
         onChange={tuneSelected}
         sx={{...selectStyles}}
         >
-        { tunelist.map((s) => 
+        { tunelist.map((s) =>
           <MenuItem key={s.number} value={s.file}>{s.name}</MenuItem>
           )}
       </Select>
