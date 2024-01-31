@@ -25,7 +25,7 @@ const stanzaStyles = {
   },
   sup: {
     position: 'absolute',
-    left: '-1.5em',
+    left: '-3em',
   },
 }
 

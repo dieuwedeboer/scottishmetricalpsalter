@@ -15,7 +15,7 @@ export function processPsalmsText(text: string) {
 
   for (let line of lines) {
     line = line.trim()
-    if (line.startsWith('PSALMS')) {
+    if (line.startsWith('PSALM')) {
       if (currentChapter) chapters.push(currentChapter)
       currentChapter = {
         number: line.split(' ')[1],
@@ -23,6 +23,12 @@ export function processPsalmsText(text: string) {
         stanzas: []
       }
       isMetadata = true
+      continue
+    }
+    else if (line.startsWith('#')) {
+      // @todo We don't really want to skip comments
+      // such as "The prayers of David ... are ended" in Psalm 72
+      // or the aleph, beth, etc, in Psalm 119. We need a way to handle those.
       continue
     }
     else if (isMetadata && line.match(/^\d/)) {

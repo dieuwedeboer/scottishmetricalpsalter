@@ -8,7 +8,7 @@ export default function PsalmDrawer({ open, onClose, onPsalmSelect, chapters }) 
           <Grid item xs={4} sm={3} md={2} lg={1} key={index}>
             <Button
               variant="outlined"
-              sx={{ width: '100%', height: '10vh' }}
+              sx={{ width: '100%', height: '5vh' }}
               onClick={() => onPsalmSelect(index)}
             >
               <Typography variant="h5" component="div">
