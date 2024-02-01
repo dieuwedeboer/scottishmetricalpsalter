@@ -5,24 +5,27 @@ import {
 } from 'opensheetmusicdisplay'
 import AudioPlayer from 'osmd-audio-player'
 import { useSelector, useDispatch } from 'react-redux'
-import { AppState,
-         setReady, setOpen, setFile, setScoreWidth
-} from './state/appSlice'
+import { setReady, setFile, setScoreWidth } from './state/appSlice'
 import { Box, Toolbar, Button } from '@mui/material'
 import Score from './components/Score'
 import Topbar, { PlaybackBar, Sidebar } from './components/AppBars'
 import TuneSelect from './components/select/TuneSelect'
 import PsalmViewer from './components/PsalmViewer'
-import testLyrics from './lyrics'
+import showLyrics from './lyrics'
 import { initialiseOpenSheetMusicDisplay, useDisplay, useAudioPlayer } from './osmd'
 
 export default function App() {
   const display = useDisplay()
   const player = useAudioPlayer()
   const dispatch = useDispatch()
-  const { ready, open, file, scoreWidth } = useSelector((state: AppState) => state.app)
+  const { ready, file, scoreWidth } = useSelector((state) => state.app)
 
   const scoreDiv = useRef()
+
+  // @todo psalm state should have the active psalm in state so
+  // we don't need to look it up.
+  const psalm = useSelector((state) => state.psalm.chapters[state.psalm.currentIndex])
+
 
   // Set globals for debugging. These should never be used directly in code.
   // @todo wrap this in a debug conditional.
@@ -67,17 +70,19 @@ export default function App() {
   }, [])
 
   return (
-    <main>
-      <Box open={open} >
-        <Box sx={{ p: 2 }} >
+    <Box component="main">
+      <Box sx={{ display: 'flex', flexDirection: 'column', height: 'calc(100vh - 84px)' }}>
+        <Box sx={{ height: '50%', overflow: 'auto', p: 2 }}>
           <TuneSelect loadFile={loadFile} />
-          <Button variant="outline" sx={{p: 2}}  onClick={() => {testLyrics(display)}}>Show verse</Button>
+          <Button variant="outline" sx={{p: 2}} onClick={() => showLyrics(psalm)}>Stanza mode</Button>
+          <Box component="article" sx={{ maxWidth: scoreWidth }} ref={scoreDiv} />
+          <Sidebar />
         </Box>
-        <Box component="article" sx={{ maxWidth: scoreWidth }} ref={scoreDiv} />
-        <PsalmViewer />
-        <PlaybackBar />
+        <Box sx={{ height: '50%', overflow: 'auto', p: 2 }}>
+          <PsalmViewer />
+        </Box>
       </Box>
-      <Sidebar open={open} />
-    </main>
+      <PlaybackBar />
+    </Box>
   )
 }

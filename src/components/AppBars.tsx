@@ -28,10 +28,11 @@ export function PlaybackBar() {
   )
 }
 
-export function Sidebar({open}: props) {
+export function Sidebar() {
   const display = useDisplay()
   const player  = useAudioPlayer()
   const dispatch = useDispatch()
+  const { open } = useSelector((state: AppState) => state.app)
   const drawerWidth = 340;
 
   const transpose = (event) => {
@@ -79,25 +80,4 @@ export function Sidebar({open}: props) {
       </Box>
     </Drawer>
   )
-}
-
-export default function Topbar({osmd, player, open, handleDrawerOpen, file, changeTune}: props) {
-  return (
-    <AppBar position="fixed" open={open}>
-      <Toolbar>
-        <Typography variant="h6" noWrap sx={{ flexGrow: 1, mr: 4 }} component="div">
-          Scottish Metrical Psalter
-        </Typography>
-        <IconButton
-          color="inherit"
-          aria-label="open drawer"
-          edge="end"
-          onClick={handleDrawerOpen}
-          sx={{ ...(open && { display: 'none' }) }}
-        >
-          <SettingsIcon />
-        </IconButton>
-      </Toolbar>
-    </AppBar>
-  );
 }

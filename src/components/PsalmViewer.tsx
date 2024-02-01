@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '../state/store';
+import { setChapters, setCurrentIndex } from '../state/psalmSlice';
 import { useSwipeable } from 'react-swipeable'
 import { Box, Typography } from '@mui/material'
 import { loadPsalmsFile, processPsalmsText } from '../psalms'
@@ -6,7 +9,6 @@ import PsalmTopPanel from './PsalmTopPanel'
 import PsalmDrawer from './PsalmDrawer'
 
 const stanzaStyles = {
-  paddingBottom: '80px', // Offset the app bar
   display: 'flex',
   justifyContent: 'center',
   '& > div': {
@@ -30,15 +32,17 @@ const stanzaStyles = {
 }
 
 export default function PsalmViewer() {
-  const [chapters, setChapters] = useState([])
-  const [currentChapterIndex, setCurrentChapterIndex] = useState(0)
+  const dispatch = useDispatch();
+  const chapters = useSelector((state: RootState) => state.psalm.chapters)
+  const currentIndex = useSelector((state: RootState) => state.psalm.currentIndex)
+
   const [open, setOpen] = useState(false)
 
   useEffect(() => {
     loadPsalmsFile()
       .then(processPsalmsText)
-      .then(setChapters)
-  }, [])
+      .then(data => dispatch(setChapters(data)))
+  }, [dispatch])
 
   const renderWithBreaks = (lines) => {
     return lines.map((line, index) => {
@@ -56,30 +60,29 @@ export default function PsalmViewer() {
   }
 
   const handlePrevious = () => {
-    setCurrentChapterIndex(index => Math.max(index - 1, 0))
+    const prevIndex = Math.max(currentIndex - 1, 0);
+    dispatch(setCurrentIndex(prevIndex))
   }
 
   const handleNext = () => {
-    setCurrentChapterIndex(index => Math.min(index + 1, chapters.length - 1))
+    const nextIndex = Math.min(currentIndex + 1, chapters.length - 1);
+    dispatch(setCurrentIndex(nextIndex))
   }
 
   const handleMenuClick = () => {
-    // Logic to open the Psalm navigation panel
     setOpen(true)
   }
   const onClose = () => {
-    // Logic to close the Psalm navigation panel
     setOpen(false)
   }
-  const onPsalmSelect = (value) => {
-    // Logic to change Psalm from the nav panel - like a "goto"
-    setCurrentChapterIndex(value)
+  const onPsalmSelect = (value: number) => {
+    dispatch(setCurrentIndex(value))
     setOpen(false)
   }
 
   const handlers = useSwipeable({
-    onSwipedLeft: () => setCurrentChapterIndex(index => Math.min(index + 1, chapters.length - 1)),
-    onSwipedRight: () => setCurrentChapterIndex(index => Math.max(index - 1, 0)),
+    onSwipedLeft: () => handlePrevious(),
+    onSwipedRight: () => handleNext(),
     preventDefaultTouchmoveEvent: true,
     trackMouse: true,
   })
@@ -96,19 +99,19 @@ export default function PsalmViewer() {
             chapters={chapters}
           />
           <PsalmTopPanel
-            currentChapter={chapters[currentChapterIndex]}
+            currentChapter={chapters[currentIndex]}
             onPrevious={handlePrevious}
             onNext={handleNext}
             onMenuClick={handleMenuClick}
           />
-          <Typography variant="h2">
-            Psalm {chapters[currentChapterIndex].number}
+          <Typography variant="h2" sx={{ display: 'none' }}>
+            Psalm {chapters[currentIndex].number}
           </Typography>
           <Box sx={{ padding: 2, fontStyle: 'italic' }}>
-            {renderWithBreaks(chapters[currentChapterIndex].metadata)}
+            {renderWithBreaks(chapters[currentIndex].metadata)}
           </Box>
           <Box>
-            {chapters[currentChapterIndex].stanzas.map((stanza, idx) => (
+            {chapters[currentIndex].stanzas.map((stanza, idx) => (
               <Typography key={idx}>{renderWithBreaks(stanza)}</Typography>
             ))}
           </Box>

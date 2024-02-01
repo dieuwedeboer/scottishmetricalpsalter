@@ -1,35 +1,73 @@
 import { LyricsReader, IXmlElement} from 'opensheetmusicdisplay'
+import { useDisplay } from './osmd'
+import syllables from './syllables.json'
 
 /**
  * Helper function to convert an XML string to HTML template element.
- * @todo move this to a helpers.ts file.
  */
-function htmlToElement(html) {
-  var template = document.createElement('template');
-  html = html.trim(); // Never return a text node of whitespace as the result
-  template.innerHTML = html;
-  return template.content.firstChild;
+function htmlToElement(html: string): string {
+  var template = document.createElement('template')
+  html = html.trim() // Never return a text node of whitespace as the result
+  template.innerHTML = html
+  return template.content.firstChild
 }
 
-// @todo Dynamically process verses and break syllables.
-  // @todo also handle syllable separators better than manual -s
-const verse = [
-  'That', 'man', 'hath', 'per-', '-fect', 'bles-', '-sed-', '-ness,',
-  'who', 'wal-', '-keth', 'not', 'a-', '-stray',
+function stanzaToWords(stanza: string[]): string[] {
+  return stanza
+    .map(line => line.replace(/^\d+\s*/, '')) // Remove verse numbers
+    .map(line => line.split(/\s+/)) // Split line into words
+    .map(line => splitIntoSyllables(line)) // Split each word into syllables
+    .flat() // Flatten the array of arrays
+}
+
+// This is not final since we need to change the "syllabic"
+// splitting further down in code.
+// We could return each word as an array, etc, or even assign
+// single, begin, middle, end metadata here.
+function splitIntoSyllables(line: string[]): string[] {
+  const punctuationRegex = /[,.?:;']$/
+
+  return line.map(word => {
+    // Extract and store any trailing punctuation
+    const punctuationMatch = word.match(punctuationRegex)
+    const punctuation = punctuationMatch ? punctuationMatch.join('') : ''
+
+    // Remove punctuation for dictionary lookup
+    const cleanWord = word.replace(punctuationRegex, '')
+
+    // Look up the word, and add the punctuation back to the last syllable
+    const value = syllables[cleanWord] ?? [cleanWord]
+    if (punctuation && value.length > 0) {
+      value[value.length - 1] += punctuation
+    }
+
+    return value
+  }).flat()
+}
+
+// @todo Remove
+const testVerse = [
+  'That', 'man', 'hath', 'per-', '-fect', 'bless-', '-ed-', '-ness,',
+  'who', 'walk-', '-eth', 'not', 'a-', '-stray',
   'In', 'coun-', '-sel', 'of', 'un-', '-god-', '-ly', 'men,',
   'nor', 'stands', 'in', 'sin-', '-ners\'', 'way,',
 ]
 
-// this should be called before osmd.render(), after load()
-function testLyrics(display) {
-  console.log(display)
+// A tune must already be loaded before lyrics can be added.
+export default function showLyrics(psalm: any[]) {
+  const display = useDisplay()
   const lyricsReader = new LyricsReader(display.Sheet)
   let veIndex = 0
 
+  const verse = stanzaToWords(psalm.stanzas[0])
+  console.log(syllables)
+  console.log(syllables["blessedness"])
+
   // Loop over each "word" in the verse.
-  verse.forEach(function (word, index) {
+  verse.every((word, index) => {
     // Always add lyrics to the soprano line.
     let e = display.Sheet.Instruments[0].Voices[0].VoiceEntries[veIndex]
+    if (e === undefined) return false
 
     // Check for syllables
     // @todo this very crude and temporary way to handle syllables
@@ -63,7 +101,7 @@ function testLyrics(display) {
     }
 
     // Move onto the next voiceEntry for the next word.
-    veIndex++
+    return ++veIndex
   })
 
   // As the file is already loaded, tell OSDM to update its graphic object
@@ -72,6 +110,5 @@ function testLyrics(display) {
 
   // for options around tags that OSMD might process for lyrics:
   // @see https://github.com/opensheetmusicdisplay/opensheetmusicdisplay/blob/6133cb7a/src/MusicalScore/ScoreIO/MusicSymbolModules/LyricsReader.ts#L11
-}
 
-export default testLyrics
+}
