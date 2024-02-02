@@ -5,11 +5,16 @@ import AudioPlayer from 'osmd-audio-player'
 let display = null
 let audioPlayer = new AudioPlayer()
 
-export const initialiseOpenSheetMusicDisplay = (osmd) => {
-  // OSMD requires a rendered <div> so it is passed through from the App
-  // useEffect.
+export const setDisplay = (osmd) => {
+  // OSMD requires a rendered <div> and the ref cannot be passed outside
+  // a React function.
   display = osmd;
-  //audioPlayer = new AudioPlayer()
+
+  // Set globals for debugging.
+  // Do not use these directly but access then through the functions below.
+  window.osmd = display
+  window.audioPlayer = audioPlayer
+
 };
 
 export const useDisplay = () => display

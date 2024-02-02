@@ -5,14 +5,12 @@ export interface AppState {
   ready: boolean
   open: boolean
   file: string
-  scoreWidth: number
 }
 
 const initialState: AppState = {
   ready: false,
-  open: false,
+  open: false, // Deprecate this to a specific component
   file: 'tunes/Spohr.musicxml',
-  scoreWidth: 1260,
 }
 
 const appSlice = createSlice({
@@ -28,17 +26,13 @@ const appSlice = createSlice({
     setFile: (state, action: PayloadAction<string>) => {
       state.file = action.payload
     },
-    setScoreWidth: (state, action: PayloadAction<number>) => {
-      state.scoreWidth = action.payload
-    },
   },
 })
 
 export const {
   setReady,
   setOpen,
-  setFile,
-  setScoreWidth
+  setFile
 } = appSlice.actions
 
 export default appSlice.reducer
