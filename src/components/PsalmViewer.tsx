@@ -81,8 +81,8 @@ export default function PsalmViewer() {
   }
 
   const handlers = useSwipeable({
-    onSwipedLeft: () => handlePrevious(),
-    onSwipedRight: () => handleNext(),
+    onSwipedLeft: () => handleNext(),
+    onSwipedRight: () => handlePrevious(),
     preventDefaultTouchmoveEvent: true,
     trackMouse: true,
   })

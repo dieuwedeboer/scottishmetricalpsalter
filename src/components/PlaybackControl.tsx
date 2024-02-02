@@ -41,6 +41,9 @@ function PlaybackControl() {
     }
   }
 
+  // @todo Replace with a |< icon and place to left of play/pause
+  // only show if current iteration greater than 0 plus autostop when done
+  // unless repeat is enabled (add that)
   const stop = () => {
     if (player.state === 'PLAYING' || player.state === 'PAUSED') {
       player.stop()
@@ -58,6 +61,8 @@ function PlaybackControl() {
     window.osmd.render()
   }
 
+  // @todo Remove the playback slider and try to map playback changes to
+  // clicks on the actual score (hard?)
   return (
     <Grid container flex="1" sx={{ m: 1 }}>
       <Grid container justifyContent="flex-start" flex="1"></Grid>
