@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../state/store';
-import { setChapters, setCurrentIndex } from '../state/psalmSlice';
+import { useSelector, useDispatch } from 'react-redux'
+import { RootState } from '../state/store'
+import { setChapters, setCurrentIndex, setCommentary } from '../state/psalmSlice'
 import { useSwipeable } from 'react-swipeable'
-import { Box, Typography } from '@mui/material'
+import { Box, Button, Typography } from '@mui/material'
 import { loadPsalmsFile, processPsalmsText } from '../psalms'
+import { loadCommentaryFile, processCommentaryText } from '../commentary'
 import PsalmTopPanel from './PsalmTopPanel'
 import PsalmDrawer from './PsalmDrawer'
+import CommentaryDrawer from './CommentaryDrawer'
 
 const stanzaStyles = {
   display: 'flex',
@@ -36,12 +38,22 @@ export default function PsalmViewer() {
   const chapters = useSelector((state: RootState) => state.psalm.chapters)
   const currentIndex = useSelector((state: RootState) => state.psalm.currentIndex)
 
+  // @todo psalm state should have the active psalm in state so
+  // we don't need to look it up.
+  const psalm = useSelector((state) => state.psalm.chapters[state.psalm.currentIndex])
+  const commentary = useSelector((state: RootState) => state.psalm.commentary[psalm ? psalm.number.replace(/\D/g, '') : 1])
+
+
   const [open, setOpen] = useState(false)
+  const [isCommentaryOpen, setIsCommentaryOpen] = useState(false);
 
   useEffect(() => {
     loadPsalmsFile()
       .then(processPsalmsText)
       .then(data => dispatch(setChapters(data)))
+    loadCommentaryFile()
+      .then(processCommentaryText)
+      .then(data => dispatch(setCommentary(data)))
   }, [dispatch])
 
   const renderWithBreaks = (lines) => {
@@ -87,6 +99,9 @@ export default function PsalmViewer() {
     trackMouse: true,
   })
 
+  const handleOpenCommentary = () => {
+    setIsCommentaryOpen(true);
+  };
   // Render the chapters
   return (
     <Box sx={stanzaStyles} {...handlers}>
@@ -104,6 +119,19 @@ export default function PsalmViewer() {
             onNext={handleNext}
             onMenuClick={handleMenuClick}
           />
+          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '10px' }}>
+            <Button>
+              Helps
+            </Button>
+            <Button onClick={handleOpenCommentary}>
+              Commentary
+            </Button>
+            <CommentaryDrawer
+              open={isCommentaryOpen}
+              onClose={() => setIsCommentaryOpen(false)}
+              commentary={commentary}
+            />
+          </Box>
           <Typography variant="h2" sx={{ display: 'none' }}>
             Psalm {chapters[currentIndex].number}
           </Typography>
@@ -117,6 +145,6 @@ export default function PsalmViewer() {
           </Box>
         </Box>
       )}
-    </Box>
+          </Box>
   )
 }
