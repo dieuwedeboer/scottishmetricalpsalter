@@ -20,13 +20,21 @@ Want to hear just the melody, and at a slower speed? Push a few buttons and it's
 
 Want to learn the tenor line on your favourite tune? Select the tune, disable the other voices, and play it back at whatever speed or pitch you find comfortable.
 
+# Current features
+
+* A handful of tunes from the FCC Split-Leaf Psalter as dynamic sheet music.
+* Audio playback, adjust SATB volumes independently, select instruments, change tempo, and transpose sheet music.
+* The traditional text of the entire 150 *Psalms of David in Metre* with second versions.
+* Commentary on the metrical Psalms from John Brown of Haddington.
+
 # Roadmap
 
-* Basic controls to select a tune, manipulate playback, set SATB volumes independently, select soundfonts, change tempo, and transpose sheet music.
+* Ability to switch between split-leaf, tune-only, and psalm-only displays.
+* View a selection of stanzas as inline lyrics on a tune.
 * Digitise the full list of tunes from the printed FCC 2013 Scottish Psalmody.
-* Split-leaf support with the traditional Psalter text and Psalm selection.
 * Tracking metadata about tunes, including suggested Psalm/tune matches.
 * Support tunes and additionals from other split-leaf versions.
+* Dedicated domain, add to home, and local storage for Offline capability.
 * Use a device's microphone to identify a tune being sung or hummed.
 
 # Converting a tune to MusicXML
