@@ -6,7 +6,7 @@ The tunes here are for singing with the *Scottish Metrical Psalter* approved for
 
 # Getting started
 
-You can try out a [live demo](https://dieuwedeboer.github.io/scottishmetricalpsalter) of this project. It should be regularly updated with the latest build from this repository in the "docs" directory.
+You can try out a live demo of this project at [metricalpsalter.com](https://metricalpsalter.com). It should be regularly updated with the latest build from this repository in the "docs" directory.
 
 Clone the repository and run `npm install && npm start` to get a local version of the app for local development.
 
