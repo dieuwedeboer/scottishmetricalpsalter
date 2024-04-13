@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import {
-  Box,
-  Grid,
-  IconButton
-} from '@mui/material'
+import { Box, Grid, IconButton, Dialog, DialogContent, DialogActions, Button, Typography, Link } from '@mui/material'
 import PauseRounded from '@mui/icons-material/PauseRounded'
 import PlayArrowRounded from '@mui/icons-material/PlayArrowRounded'
 import Stop from '@mui/icons-material/Stop'
 import FirstPageIcon from '@mui/icons-material/FirstPage'
 import SettingsIcon from '@mui/icons-material/Settings'
+import InfoIcon from '@mui/icons-material/Info'
 import { useSelector, useDispatch } from 'react-redux'
 import { setOpen } from '../state/appSlice'
 import { useDisplay, useAudioPlayer } from '../osmd'
@@ -22,6 +19,7 @@ import TempoSlider from './slider/TempoSlider'
 function PlaybackControl() {
   const dispatch = useDispatch()
   const { open } = useSelector((state: AppState) => state.app)
+  const [infoOpen, setInfoOpen] = useState(false)
 
   const display = useDisplay()
   const player = useAudioPlayer()
@@ -66,7 +64,30 @@ function PlaybackControl() {
   // clicks on the actual score (hard?)
   return (
     <Grid container flex="1" sx={{ m: 1 }}>
-      <Grid container justifyContent="flex-start" flex="1"></Grid>
+      <Grid container justifyContent="flex-start" flex="1">
+        <IconButton onClick={() => setInfoOpen(true) } color="inherit" aria-label="info">
+          <InfoIcon />
+        </IconButton>
+
+        <Dialog open={infoOpen} onClose={() => setInfoOpen(false)}>
+          <DialogContent>
+            <Typography variant="body1" sx={{mb: 2}}>
+              This app is a tech demo and hobby project by Dieuwe de Boer. In order to be fully function it still requires several hundred tunes converted to MusicXML format.
+            </Typography>
+            <Typography variant="body1" sx={{mb: 2}}>
+              For more details and the open source codebase, <Link href="https://github.com/dieuwedeboer/scottishmetricalpsalter" target="_blank" rel="noopener">visit the project on GitHub</Link>.
+            </Typography>
+            <Typography variant="body1">
+              This project is licensed under the GNU General Public License v3.0. A UI overhaul and additional tunes are planned for future updates.
+            </Typography>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setInfoOpen(false)} color="primary">
+              Close
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </Grid>
       <Grid container justifyContent="center" flex="1">
         <IconButton
           color="inherit"
