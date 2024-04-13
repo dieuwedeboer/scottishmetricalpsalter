@@ -7,6 +7,7 @@ import {
 import PauseRounded from '@mui/icons-material/PauseRounded'
 import PlayArrowRounded from '@mui/icons-material/PlayArrowRounded'
 import Stop from '@mui/icons-material/Stop'
+import FirstPageIcon from '@mui/icons-material/FirstPage'
 import SettingsIcon from '@mui/icons-material/Settings'
 import { useSelector, useDispatch } from 'react-redux'
 import { setOpen } from '../state/appSlice'
@@ -68,22 +69,23 @@ function PlaybackControl() {
       <Grid container justifyContent="flex-start" flex="1"></Grid>
       <Grid container justifyContent="center" flex="1">
         <IconButton
+          color="inherit"
+          aria-label="stop"
+          onClick={stop}
+          sx={{ visibility: iteration ? 'visible' : 'hidden' }}
+        >
+          <FirstPageIcon />
+        </IconButton>
+        <IconButton
+          color="inherit"
           aria-label={paused ? 'play' : 'pause'}
           onClick={paused ? play : pause}
-          style={{ color: 'rgba(255, 255, 255, 0.84)' }}
         >
           {paused ? (
             <PlayArrowRounded />
           ) : (
             <PauseRounded />
           )}
-        </IconButton>
-        <IconButton
-          aria-label="stop"
-          onClick={stop}
-          style={{ color: 'rgba(255, 255, 255, 0.84)' }}
-        >
-          <Stop />
         </IconButton>
       </Grid>
       <Grid container justifyContent="flex-end" flex="1">

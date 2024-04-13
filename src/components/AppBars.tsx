@@ -53,9 +53,9 @@ export function Sidebar() {
           px: 2,
         },
       }}
-      variant="persistent"
       anchor="right"
       open={open}
+      onClose={() => dispatch(setOpen(false))}
     >
       <Toolbar>
         <IconButton onClick={() => dispatch(setOpen(false))}>

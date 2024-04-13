@@ -17,6 +17,7 @@ const stanzaStyles = {
     position: 'relative',
     textAlign: 'left',
     maxWidth: '600px',
+    pl: '2em',
   },
   'p:nth-of-type(even)': {
     marginBottom: '1em',
@@ -29,7 +30,7 @@ const stanzaStyles = {
   },
   sup: {
     position: 'absolute',
-    left: '-3em',
+    left: 0,
   },
 }
 

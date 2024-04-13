@@ -9,15 +9,7 @@ import tunelist from '../../tunelist'
 import { useDisplay, useAudioPlayer } from '../../osmd'
 
 const selectStyles = {
-  //'&, .MuiSelect-icon': {
-  //  color: 'white',
-  //},
-  //'fieldset, fieldset, &&:hover fieldset, &&.Mui-focused fieldset': {
-  //  borderColor: 'white',
-  //},
-  'legend': {
-    maxWidth: '100%', // Fix for border collision.
-  },
+  minWidth: '100px',
 }
 
 /**
@@ -41,17 +33,15 @@ export default function TuneSelect({ loadFile }: props) {
 
   return (
     <FormControl>
-      <InputLabel id="tune-select-label">Psalm Tune</InputLabel>
+      <InputLabel>Psalm Tune</InputLabel>
       <Select
-        labelId="tune-select-label"
-        id="tune-select"
         value={file}
         label="Psalm Tune"
         onChange={tuneSelected}
-        sx={{...selectStyles}}
+        sx={selectStyles}
         >
         { tunelist.map((s) =>
-          <MenuItem key={s.number} value={s.file}>{s.name}</MenuItem>
+          <MenuItem key={s.name} value={s.file}>{s.name}</MenuItem>
           )}
       </Select>
     </FormControl>

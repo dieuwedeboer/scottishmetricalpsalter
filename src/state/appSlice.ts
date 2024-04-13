@@ -10,7 +10,7 @@ export interface AppState {
 const initialState: AppState = {
   ready: false,
   open: false, // Deprecate this to a specific component
-  file: 'tunes/Spohr.musicxml',
+  file: 'tunes/Tallis.musicxml',
 }
 
 const appSlice = createSlice({

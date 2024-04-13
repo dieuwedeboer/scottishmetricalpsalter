@@ -7,7 +7,7 @@ const BASE = 'tunes/';
  *
  * @todo This function should be part of the tune prototype object.
  */
-function fileName(name) {
+function filePath(name) {
   return BASE + name.replace(/\W/g, '') + '.musicxml'
 }
 
@@ -16,41 +16,40 @@ function fileName(name) {
  */
 const tunelist = [
   {
-    file: BASE + 'Spohr.musicxml',
+    file: filePath('Crimond'),
+    name: 'Crimond',
+    metre: 'common',
+  },
+  {
+    file: filePath('Felix'),
+    name: 'Felix',
+    metre: 'common',
+  },
+  {
+    file: filePath('Spohr'),
     name: 'Spohr',
-    number: 133,
     metre: 'common',
     metadata: { },
   },
   {
-    file: BASE + 'Crimond.musicxml',
-    name: 'Crimond',
-    number: 46,
-  },
-  {
-    file: BASE + 'Old100th.musicxml',
+    file: filePath('Old100th'),
     name: 'Old 100th',
-    number: 10,
+    metre: 'long',
   },
   {
-    file: fileName('Felix'),
-    name: 'Felix',
-    number: 62,
-  },
-  {
-    file: fileName('TallisCanon'),
-    name: 'Tallis\' Canon',
-    number: 15,
-  },
-  {
-    file: fileName('Tallis'),
-    name: 'Tallis',
-    number: 138,
-  },
-  {
-    file: fileName('Richmond'),
+    file: filePath('Richmond'),
     name: 'Richmond',
-    number: 103,
+    metre: 'common',
+  },
+  {
+    file: filePath('Tallis'),
+    name: 'Tallis',
+    metre: 'common',
+  },
+  {
+    file: filePath('TallisCanon'),
+    name: 'Tallis\' Canon',
+    metre: 'long',
   },
 ]
 

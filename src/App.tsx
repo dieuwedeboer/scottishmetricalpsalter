@@ -3,7 +3,7 @@ import { Box } from '@mui/material'
 import { PlaybackBar, Sidebar } from './components/AppBars'
 import TuneViewer from './components/TuneViewer'
 import PsalmViewer from './components/PsalmViewer'
-import DragHandleIcon from '@mui/icons-material/DragHandle'
+import UnfoldMoreIcon from '@mui/icons-material/UnfoldMore'
 
 export default function App() {
   const [topHeight, setTopHeight] = useState('50%')
@@ -11,39 +11,39 @@ export default function App() {
 
   const startDragging = (e) => {
     setDragging(true)
-  };
+  }
 
   useEffect(() => {
     // Handles dragging movement
     const handleDragging = (e) => {
-      if (!dragging) return;
+      if (!dragging) return
       // Use clientY for mouse events and touches[0].clientY for touch events
       const clientY = e.clientY || e.touches[0].clientY;
-      const newHeight = `${clientY / window.innerHeight * 100}%`;
-      setTopHeight(newHeight);
+      const newHeight = `${clientY / window.innerHeight * 100}%`
+      setTopHeight(newHeight)
     };
 
     // Stops dragging
     const stopDragging = () => {
-      setDragging(false);
-    };
+      setDragging(false)
+    }
 
     if (dragging) {
       // Attach event listeners when dragging starts
-      document.addEventListener('mousemove', handleDragging);
-      document.addEventListener('mouseup', stopDragging);
-      document.addEventListener('touchmove', handleDragging, { passive: false });
-      document.addEventListener('touchend', stopDragging);
+      document.addEventListener('mousemove', handleDragging)
+      document.addEventListener('mouseup', stopDragging)
+      document.addEventListener('touchmove', handleDragging, { passive: false })
+      document.addEventListener('touchend', stopDragging)
     }
 
     // Cleanup function to remove event listeners
     return () => {
-      document.removeEventListener('mousemove', handleDragging);
-      document.removeEventListener('mouseup', stopDragging);
-      document.removeEventListener('touchmove', handleDragging);
-      document.removeEventListener('touchend', stopDragging);
-    };
-  }, [dragging]); // Effect dependencies
+      document.removeEventListener('mousemove', handleDragging)
+      document.removeEventListener('mouseup', stopDragging)
+      document.removeEventListener('touchmove', handleDragging)
+      document.removeEventListener('touchend', stopDragging)
+    }
+  }, [dragging])
 
   return (
     <Box component="main">
@@ -55,14 +55,14 @@ export default function App() {
           sx={{
             height: '10px',
             cursor: 'row-resize',
-            backgroundColor: 'lightblue',
+            borderTop: '1px solid lightgrey',
             top: topHeight,
             zIndex: 1,
             textAlign: 'center',
           }}
           onMouseDown={startDragging}
           onTouchStart={startDragging}
-        ><DragHandleIcon sx={{ marginTop: '-10px' }} /></Box>
+        ><UnfoldMoreIcon sx={{ mt: '-10px', float: 'right', mr: 4, border: '1px solid lightgrey', borderRadius: '20px', backgroundColor: 'white', }} /></Box>
         <Box sx={{ height: `calc(100% - ${topHeight})`, overflow: 'auto', p: 2 }}>
           <PsalmViewer />
         </Box>
